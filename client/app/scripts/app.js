@@ -15,7 +15,9 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'smart-table',
+    'underscore'
   ])
   .config(function ($routeProvider) {
     $routeProvider

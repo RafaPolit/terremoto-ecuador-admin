@@ -6,7 +6,7 @@ describe('Controller: MainCtrl', function () {
   beforeEach(module('clientApp'));
 
   var MainCtrl,
-    scope;
+      scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
@@ -17,7 +17,11 @@ describe('Controller: MainCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(MainCtrl.awesomeThings.length).toBe(3);
+  describe('On instance', function() {
+    it('should have the associated sub categories icons', inject(function (_) {
+      expect(_(scope.subCategories).isObject()).toBe(true);
+      expect(scope.subCategories[1].icon).toBeDefined();
+      expect(scope.subCategories[1].color).toBeDefined();
+    }));
   });
 });

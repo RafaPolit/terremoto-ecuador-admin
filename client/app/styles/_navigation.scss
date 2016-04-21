@@ -1,0 +1,26 @@
+.header {
+  .navbar {
+    background-color: #462047;
+  }
+
+  .navbar-nav {
+    > li > a {
+      color: #FFF;
+
+      &:hover,
+      &:focus {
+        color: #FFF;
+        background-color: rgba($yellow-color, .5);
+      }
+    }
+    > .active > a {
+      &,
+      &:hover,
+      &:focus {
+        color: $navbar-default-link-active-color;
+        background-color: $yellow-color;
+      }
+    }
+  }
+
+}

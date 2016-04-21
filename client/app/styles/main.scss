@@ -65,8 +65,9 @@ body {
   }
 }
 
-@import "colors.scss";
-@import "navigation.scss";
+@import "_variables.scss";
+@import "_colors.scss";
+@import "_navigation.scss";
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
