@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-.controller('MainCtrl', [ '$scope', function ($scope) {
+.controller('MainCtrl', [ '$scope', '$http', function ($scope, $http) {
 
   $scope.subCategories = {
     1: { icon: 'coffee', color: 'orange'},
@@ -19,6 +19,17 @@ angular.module('clientApp')
     6: { icon: 'bus', color: 'orange'},
     7: { icon: 'bed', color: 'yellow' }
   };
+
+  // TEST!
+  $http.get('/events_list', {})
+  .then(
+  function successCallback(response) {
+    console.log(response.data.msg);
+  },
+  function errorCallback(response) {
+    console.log(response.data.msg);
+  });
+  // ------
 
   $scope.rowCollection = [
     { subcategory_id: 4, description: 'favor mandar lo que sea', address: 'Troncal Amazónica', latitude: '-1.9400893594', longitud: '-77.7282714844', created_at: '2016-04-19 02:08:19'},

@@ -7,6 +7,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+/**
+ * Route Imports
+ */
+var events_list_route = require('./routes/events_list.js');
+
 var app = express();
 
 // uncomment after placing your favicon in /public
@@ -19,22 +24,22 @@ app.use(cookieParser());
  * Development Settings
  */
 if (app.get('env') === 'development') {
-    // This will change in production since we'll be using the dist folder
-    app.use(express.static(path.join(__dirname, '../client')));
-    // This covers serving up the index page
-    app.use(express.static(path.join(__dirname, '../client/.tmp')));
-    app.use(express.static(path.join(__dirname, '../client/app')));
-    // Favicon
-    app.use(favicon(path.join(__dirname, '../client/app', 'favicon.ico')));
+  // This will change in production since we'll be using the dist folder
+  app.use(express.static(path.join(__dirname, '../client')));
+  // This covers serving up the index page
+  app.use(express.static(path.join(__dirname, '../client/.tmp')));
+  app.use(express.static(path.join(__dirname, '../client/app')));
+  // Favicon
+  app.use(favicon(path.join(__dirname, '../client/app', 'favicon.ico')));
 
-    // Error Handling
-    app.use(function(err, req, res) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+  // Error Handling
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
     });
+  });
 }
 
 /**
@@ -42,20 +47,25 @@ if (app.get('env') === 'development') {
  */
 if (app.get('env') === 'production') {
 
-    // changes it to use the optimized version for production
-    app.use(express.static(path.join(__dirname, '/dist')));
-    // Favicon
-    app.use(favicon(path.join(__dirname, '/dist', 'favicon.ico')));
+  // changes it to use the optimized version for production
+  app.use(express.static(path.join(__dirname, '/dist')));
+  // Favicon
+  app.use(favicon(path.join(__dirname, '/dist', 'favicon.ico')));
 
-    // production error handler
-    // no stacktraces leaked to user
-    app.use(function(err, req, res) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: {}
-        });
+  // production error handler
+  // no stacktraces leaked to user
+  app.use(function(err, req, res) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: {}
     });
+  });
 }
+
+/**
+ * Routes
+ */
+app.use('/events_list', events_list_route);
 
 module.exports = app;
