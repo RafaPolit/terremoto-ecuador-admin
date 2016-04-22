@@ -25,7 +25,7 @@ router.delete('/', function (req, res) {
   Crimes.destroy({ where: { id: Number(req.query.id) } })
   .then(function(destroyed_rows) {
     if(destroyed_rows) {
-      res.json({ 'event_deleted': Number(req.query.id) });
+      res.json({ 'eventDeleted': Number(req.query.id) });
     }
   });
 });

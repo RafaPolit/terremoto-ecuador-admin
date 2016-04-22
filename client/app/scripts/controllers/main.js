@@ -8,7 +8,13 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-.controller('MainCtrl', [ '$scope', '$http', '_', function ($scope, $http, _) {
+.controller('MainCtrl', [ '$rootScope', '$scope', '$http', '$location', '_',
+                          function ($rootScope, $scope, $http, $location, _) {
+
+  $rootScope.locationPath = $location.path();
+  $rootScope.$on('$locationChangeSuccess', function() {
+    $rootScope.locationPath = $location.path();
+  });
 
   $scope.event = {
     original: {},
@@ -17,7 +23,7 @@ angular.module('clientApp')
     allowContentEditing: false
   };
 
-  $scope.statuses = {
+  $scope.progressStatuses = {
     1: { status: 'unattended', class: 'danger' },
     2: { status: 'in-progress', class: 'warning' },
     3: { status: 'resolved', class: 'success' }
@@ -27,8 +33,7 @@ angular.module('clientApp')
   .then(
   function successCallback(response) {
     $scope.events = _(response.data.events).map(function(event) {
-      // Assign temporary status
-      return _(event).extend({ status: '1' });
+      return _(event).extend({ progress: String(event.progress) });
     });
 
     $scope.subcategories = response.data.subcategories;
@@ -58,13 +63,13 @@ angular.module('clientApp')
   $scope.deleteEvent = function() {
     $http({ method: 'DELETE', url: '/event', params: { id: $scope.event.toBeDeleted } })
     .then(function(response) {
-      $scope.events = _($scope.events).reject(function(event) { return event.id === response.data.event_deleted; });
+      $scope.events = _($scope.events).reject(function(event) { return event.id === response.data.eventDeleted; });
     });
   };
 
   // ---
 
-  var icon_keys = {
+  var iconKeys = {
     food: 'coffee',
     water: 'tint',
     clothing: 'female',
@@ -76,7 +81,7 @@ angular.module('clientApp')
 
   function assignFaIcons(subcategories) {
     _(subcategories).each(function(subcategory) {
-      subcategory.icon = icon_keys[subcategory.name];
+      subcategory.icon = iconKeys[subcategory.name];
     });
   }
 

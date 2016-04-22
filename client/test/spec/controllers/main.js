@@ -16,8 +16,8 @@ describe('Controller: MainCtrl', function () {
     scope = $rootScope.$new();
 
     events = [
-      { description: 'descrip 1' },
-      { description: 'descrip 2' }
+      { description: 'descrip 1', progress: 2 },
+      { description: 'descrip 2', progress: 1 }
     ];
 
     subcategories = [
@@ -42,6 +42,11 @@ describe('Controller: MainCtrl', function () {
 
   describe('On instance', function() {
 
+    it('should hold locationPath in scope', function() {
+      expect(scope.locationPath).toBe('');
+      $httpBackend.flush();
+    });
+
     it('should hold event in scope with original values and editing values', function() {
       expect(scope.event.original).toEqual({});
       expect(scope.event.editing).toEqual({});
@@ -54,18 +59,18 @@ describe('Controller: MainCtrl', function () {
       $httpBackend.flush();
     });
     
-    it('should hold statuses in scope', function() {
-      expect(scope.statuses[1]).toBeDefined();
-      expect(scope.statuses[2]).toBeDefined();
+    it('should hold progressStatuses in scope', function() {
+      expect(scope.progressStatuses[1]).toBeDefined();
+      expect(scope.progressStatuses[2]).toBeDefined();
       $httpBackend.flush();
     });
     
-    it('should ask for the events list and assign them to scope, with status added', function() {
+    it('should ask for the events list and assign them to scope and stringify the progress', function() {
       $httpBackend.flush();
       expect(scope.events[0].description).toBe('descrip 1');
-      expect(scope.events[0].status).toBe('1');
+      expect(scope.events[0].progress).toBe('2');
       expect(scope.events[1].description).toBe('descrip 2');
-      expect(scope.events[1].status).toBe('1');
+      expect(scope.events[1].progress).toBe('1');
     });
 
     it('should assign the subcategories to the scope with their respective fa icons', function() {
@@ -128,7 +133,7 @@ describe('Controller: MainCtrl', function () {
     it('should call on event del with correct data', function() {
       $httpBackend.flush();
       $httpBackend.expect('DELETE', '/event?id=77')
-      .respond({ event_deleted: scope.event.toBeDeleted });
+      .respond({ eventDeleted: scope.event.toBeDeleted });
 
       scope.event.toBeDeleted = 77;
       scope.deleteEvent();
@@ -144,7 +149,7 @@ describe('Controller: MainCtrl', function () {
         scope.events[0].id = 77;
         scope.event.toBeDeleted = 77;
 
-        $httpBackend.expect('DELETE', '/event?id=77').respond({ event_deleted: scope.event.toBeDeleted });
+        $httpBackend.expect('DELETE', '/event?id=77').respond({ eventDeleted: scope.event.toBeDeleted });
 
         scope.deleteEvent();
 

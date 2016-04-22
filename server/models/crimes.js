@@ -16,6 +16,7 @@ module.exports = db.define('crimes', {
   subcategory_id: { type: Sequelize.INTEGER(11), allowNull: true, defaultValue: null}, // int(11) DEFAULT NULL,
   pictures_count: { type: Sequelize.INTEGER(11), allowNull: false, defaultValue: 0 }, // int(11) DEFAULT '0',
   plate: { type: Sequelize.STRING, allowNull: true, defaultValue: null }, // char(8) DEFAULT NULL,
+  progress: { type: Sequelize.INTEGER(11), notNull: true, defaultValue: 1 }, // int(11) DEFAULT 1,
   report_dt: { type: Sequelize.DATE, allowNull: true, defaultValue: null }, // datetime DEFAULT NULL,
   client_id: { type: Sequelize.INTEGER(11), allowNull: true, defaultValue: null }, // int(11) DEFAULT NULL,
 }, {
