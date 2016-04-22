@@ -16,6 +16,8 @@ $ npm install forever -g
 
 Deploy the package (creating the dist on client and with all node_modules form server, instructions comming soon!).
 
+Edit the server/config files to reflect server structure and database host, user and password.
+
 Then cd into the server directory and run:
 ```
 $ export NODE_ENV=production
