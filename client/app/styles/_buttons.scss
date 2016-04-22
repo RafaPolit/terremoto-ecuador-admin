@@ -1,0 +1,30 @@
+.action-buttons a {
+  margin: 0 3px;
+  display: inline-block;
+  opacity: .85;
+  -webkit-transition: all .1s;
+  -o-transition: all .1s;
+  transition: all .1s;
+
+  &:hover {
+    text-decoration: none;
+    -moz-transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+    opacity: 1;
+  }
+
+  &.red:hover {
+    color: saturate($red-color, 20%);
+  }
+
+  &.green:hover {
+    color: saturate($green-color, 20%);
+  }
+
+  &.blue:hover {
+    color: saturate($blue-color, 20%);
+  }
+}

@@ -8,37 +8,58 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-.controller('MainCtrl', [ '$scope', '$http', function ($scope, $http) {
+.controller('MainCtrl', [ '$scope', '$http', '_', function ($scope, $http, _) {
 
-  $scope.subCategories = {
-    1: { icon: 'coffee', color: 'orange'},
-    2: { icon: 'tint', color: 'orange'},
-    3: { icon: 'female', color: 'yellow'},
-    4: { icon: 'medkit', color: 'red'},
-    5: { icon: 'ambulance', color: 'red'},
-    6: { icon: 'bus', color: 'orange'},
-    7: { icon: 'bed', color: 'yellow' }
+  $scope.event = { original: {}, editing: {} };
+  $scope.statuses = {
+    1: { status: 'unattended', class: 'danger' },
+    2: { status: 'in-progress', class: 'warning' },
+    3: { status: 'resolved', class: 'success' }
   };
 
-  // TEST!
   $http.get('/events_list', {})
   .then(
   function successCallback(response) {
-    console.log(response.data.msg);
+    $scope.events = _(response.data.events).map(function(event) {
+      // Assign temporary status
+      return _(event).extend({ status: '1' });
+    });
+
+    $scope.subcategories = response.data.subcategories;
+    assign_fa_icons($scope.subcategories);
   },
   function errorCallback(response) {
-    console.log(response.data.msg);
+    console.log(response);
   });
-  // ------
 
-  $scope.rowCollection = [
-    { subcategory_id: 4, description: 'favor mandar lo que sea', address: 'Troncal Amazónica', latitude: '-1.9400893594', longitud: '-77.7282714844', created_at: '2016-04-19 02:08:19'},
-    { subcategory_id: 2, description: 'favor mandar lo que sea', address: 'Troncal Amazónica', latitude: '0.6045801500', longitud: '-80.0185775757', created_at: '2016-04-19 02:08:19'},
-    { subcategory_id: 1, description: 'favor mandar lo que sea', address: 'Troncal Amazónica', latitude: '-1.9400893594', longitud: '-77.7282714844', created_at: '2016-04-19 02:08:19'},
-    { subcategory_id: 3, description: 'favor mandar lo que sea', address: 'Troncal Amazónica', latitude: '-1.9400893594', longitud: '-77.7282714844', created_at: '2016-04-19 02:08:19'},
-    { subcategory_id: 5, description: 'favor mandar lo que sea', address: 'Troncal Amazónica', latitude: '-1.9400893594', longitud: '-77.7282714844', created_at: '2016-04-19 02:08:19'},
-    { subcategory_id: 6, description: 'favor mandar lo que sea', address: 'Troncal Amazónica', latitude: '-1.9400893594', longitud: '-77.7282714844', created_at: '2016-04-19 02:08:19'},
-    { subcategory_id: 7, description: 'favor mandar lo que sea', address: 'Troncal Amazónica', latitude: '-1.9400893594', longitud: '-77.7282714844', created_at: '2016-04-19 02:08:19'},
-  ];
+  $scope.edit_event_modal = function(event) {
+    $scope.event.original = event;
+    $scope.event.editing = _(event).clone();
+  };
+
+  // TEST! - Mocked update - No DB interaction
+  $scope.edit_event = function() {
+    _($scope.event.original).extend($scope.event.editing);
+    console.log($scope.event);
+  };
+  // -----
+
+  // ---
+
+  var icon_keys = {
+    food: 'coffee',
+    water: 'tint',
+    clothing: 'female',
+    drugs: 'medkit',
+    rescue: 'ambulance',
+    transport: 'bus',
+    hostel: 'bed'
+  };
+
+  function assign_fa_icons(subcategories) {
+    _(subcategories).each(function(subcategory) {
+      subcategory.icon = icon_keys[subcategory.name];
+    });
+  }
 
 }]);
