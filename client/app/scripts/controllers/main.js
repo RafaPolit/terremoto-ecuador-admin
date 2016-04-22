@@ -10,7 +10,13 @@
 angular.module('clientApp')
 .controller('MainCtrl', [ '$scope', '$http', '_', function ($scope, $http, _) {
 
-  $scope.event = { original: {}, editing: {} };
+  $scope.event = {
+    original: {},
+    editing: {},
+    toBeDeleted: null,
+    allowContentEditing: false
+  };
+
   $scope.statuses = {
     1: { status: 'unattended', class: 'danger' },
     2: { status: 'in-progress', class: 'warning' },
@@ -26,23 +32,35 @@ angular.module('clientApp')
     });
 
     $scope.subcategories = response.data.subcategories;
-    assign_fa_icons($scope.subcategories);
+    assignFaIcons($scope.subcategories);
   },
   function errorCallback(response) {
     console.log(response);
   });
 
-  $scope.edit_event_modal = function(event) {
+  $scope.editEventModal = function(event) {
+    $scope.event.allowContentEditing = false;
     $scope.event.original = event;
     $scope.event.editing = _(event).clone();
   };
 
-  // TEST! - Mocked update - No DB interaction
-  $scope.edit_event = function() {
-    _($scope.event.original).extend($scope.event.editing);
-    console.log($scope.event);
+  $scope.updateEvent = function() {
+    $http.put('/event', $scope.event.editing)
+    .then(function(response) {
+      _($scope.event.original).extend(response.data.event);
+    });
   };
-  // -----
+
+  $scope.confirmDeleteEvent = function(event) {
+    $scope.event.toBeDeleted = event.id;
+  };
+
+  $scope.deleteEvent = function() {
+    $http({ method: 'DELETE', url: '/event', params: { id: $scope.event.toBeDeleted } })
+    .then(function(response) {
+      $scope.events = _($scope.events).reject(function(event) { return event.id === response.data.event_deleted; });
+    });
+  };
 
   // ---
 
@@ -56,7 +74,7 @@ angular.module('clientApp')
     hostel: 'bed'
   };
 
-  function assign_fa_icons(subcategories) {
+  function assignFaIcons(subcategories) {
     _(subcategories).each(function(subcategory) {
       subcategory.icon = icon_keys[subcategory.name];
     });

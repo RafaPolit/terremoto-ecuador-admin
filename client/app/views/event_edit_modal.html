@@ -8,6 +8,7 @@
       <div class="modal-body">
 
         <form class="form-horizontal">
+
           <div class="form-group">
             <label for="event_description" class="col-sm-2 control-label">Estado</label>
             <div class="col-sm-10">
@@ -17,24 +18,38 @@
               </select>
             </div>
           </div>
+
+          <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-2 text-center">
+              <a href="" class="btn btn-warning"
+                 ng-click="event.allowContentEditing = !event.allowContentEditing;">
+                  {{ (event.allowContentEditing) ? 'Bloquear Contenidos' : 'Editar Contenidos' }}
+              </a>
+            </div>
+          </div>
+
           <div class="form-group">
             <label for="event_description" class="col-sm-2 control-label">Tipo</label>
             <div class="col-sm-10">
               <select class="form-control"
                       ng-options="option.id as option.name for option in subcategories"
-                      ng-model="event.editing.subcategory_id">
+                      ng-model="event.editing.subcategory_id"
+                      ng-disabled="!event.allowContentEditing">
               </select>
             </div>
           </div>
+
           <div class="form-group">
             <label for="event_description" class="col-sm-2 control-label">Descrip.</label>
             <div class="col-sm-10">
               <textarea class="form-control"
                         id="event_description"
                         rows="4"
-                        ng-model="event.editing.description"></textarea>
+                        ng-model="event.editing.description"
+                        ng-disabled="!event.allowContentEditing"></textarea>
             </div>
           </div>
+
           <div class="form-group">
             <label for="event_address" class="col-sm-2 control-label">Dirección</label>
             <div class="col-sm-10">
@@ -42,9 +57,11 @@
                      class="form-control"
                      id="event_address"
                      ng-model="event.editing.address"
-                     placeholder="Dirección">
+                     placeholder="Dirección"
+                     ng-disabled="!event.allowContentEditing">
             </div>
           </div>
+
           <div class="form-group">
             <label for="event_longitude" class="col-sm-2 control-label">En Mapa</label>
             <div class="col-sm-10">
@@ -54,6 +71,7 @@
               </a>
             </div>
           </div>
+
           <div class="form-group">
             <label for="event_longitude" class="col-sm-2 control-label">Longitud</label>
             <div class="col-sm-10">
@@ -61,9 +79,11 @@
                      class="form-control"
                      id="event_longitude"
                      ng-model="event.editing.longitude"
-                     placeholder="Longitud">
+                     placeholder="Longitud"
+                     ng-disabled="!event.allowContentEditing">
             </div>
           </div>
+
           <div class="form-group">
             <label for="event_latitude" class="col-sm-2 control-label">Latitud</label>
             <div class="col-sm-10">
@@ -71,9 +91,11 @@
                      class="form-control"
                      id="event_latitude"
                      ng-model="event.editing.latitude"
-                     placeholder="Latitud">
+                     placeholder="Latitud"
+                     ng-disabled="!event.allowContentEditing">
             </div>
           </div>
+
           <div class="form-group">
             <label for="event_report_dt" class="col-sm-2 control-label">Reportado</label>
             <div class="col-sm-10">
@@ -81,15 +103,17 @@
                      class="form-control"
                      id="event_report_dt"
                      ng-model="event.editing.report_dt"
-                     placeholder="Fecha de Reporte">
+                     placeholder="Fecha de Reporte"
+                     ng-disabled="!event.allowContentEditing">
             </div>
           </div>
+
         </form>
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="edit_event()">Guardar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="updateEvent()">Guardar</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

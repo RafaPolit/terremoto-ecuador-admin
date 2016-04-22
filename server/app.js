@@ -10,7 +10,8 @@ var bodyParser = require('body-parser');
 /**
  * Route Imports
  */
-var events_list_route = require('./routes/events_list.js');
+var events_list_routes = require('./routes/events_list_routes.js');
+var event_routes = require('./routes/event_routes.js');
 
 var app = express();
 
@@ -66,6 +67,7 @@ if (app.get('env') === 'production') {
 /**
  * Routes
  */
-app.use('/events_list', events_list_route);
+app.use('/events_list', events_list_routes);
+app.use('/event', event_routes);
 
 module.exports = app;

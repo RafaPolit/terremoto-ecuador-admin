@@ -1,0 +1,36 @@
+.st-sort-ascent:before{
+  content: '\25B2';
+}
+
+.st-sort-descent:before{
+  content: '\25BC';
+}
+
+table > thead > tr > th.sortable {
+  color: $blue-color;
+  cursor: pointer;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.select-page {
+  width: 50px;
+  text-align: center;
+}
+
+.pagination {
+
+  & li {
+
+    &.pointer {
+      cursor: pointer;
+    }
+
+    & a input {
+      padding: 0;
+      margin: -5px 0;
+    }
+  }
+}
