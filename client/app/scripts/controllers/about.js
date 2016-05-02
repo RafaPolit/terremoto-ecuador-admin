@@ -8,5 +8,6 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-.controller('AboutCtrl', function () {
-});
+.controller('AboutCtrl', [ 'rootScopeVariables', function (rootScopeVariables) {
+  rootScopeVariables();
+}]);

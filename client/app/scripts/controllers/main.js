@@ -8,13 +8,10 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-.controller('MainCtrl', [ '$rootScope', '$scope', '$http', '$location', '_',
-                          function ($rootScope, $scope, $http, $location, _) {
+.controller('MainCtrl', [ '$rootScope', '$scope', '$http', '$location', 'rootScopeVariables', '_',
+                          function ($rootScope, $scope, $http, $location, rootScopeVariables, _) {
 
-  $rootScope.locationPath = $location.path();
-  $rootScope.$on('$locationChangeSuccess', function() {
-    $rootScope.locationPath = $location.path();
-  });
+  rootScopeVariables();
 
   $scope.event = {
     original: {},
@@ -23,17 +20,18 @@ angular.module('clientApp')
     allowContentEditing: false
   };
 
-  $scope.progressStatuses = {
-    1: { status: 'unattended', class: 'danger' },
-    2: { status: 'in-progress', class: 'warning' },
-    3: { status: 'resolved', class: 'success' }
+  $scope.statusReports = {
+    reported: { status: 'Reportado', class: 'danger' },
+    in_progress: { status: 'En progreso', class: 'warning' }, 
+    attended: { status: 'Atendido', class: 'info' },
+    closed: { status: 'Cerrado', class: 'success' }
   };
 
   $http.get('/events_list', {})
   .then(
   function successCallback(response) {
     $scope.events = _(response.data.events).map(function(event) {
-      return _(event).extend({ progress: String(event.progress) });
+      return _(event).extend({ status_report: event.status_report || 'reported' });
     });
 
     $scope.subcategories = response.data.subcategories;

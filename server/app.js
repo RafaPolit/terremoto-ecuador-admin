@@ -12,6 +12,7 @@ var bodyParser = require('body-parser');
  */
 var events_list_routes = require('./routes/events_list_routes.js');
 var event_routes = require('./routes/event_routes.js');
+var login_routes = require('./routes/login_routes.js');
 
 var app = express();
 
@@ -69,5 +70,6 @@ if (app.get('env') === 'production') {
  */
 app.use('/events_list', events_list_routes);
 app.use('/event', event_routes);
+app.use('/login', login_routes);
 
 module.exports = app;

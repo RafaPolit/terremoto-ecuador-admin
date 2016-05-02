@@ -16,8 +16,8 @@ describe('Controller: MainCtrl', function () {
     scope = $rootScope.$new();
 
     events = [
-      { description: 'descrip 1', progress: 2 },
-      { description: 'descrip 2', progress: 1 }
+      { description: 'descrip 1', status_report: 'in_progress' },
+      { description: 'descrip 2', status_report: undefined }
     ];
 
     subcategories = [
@@ -59,18 +59,18 @@ describe('Controller: MainCtrl', function () {
       $httpBackend.flush();
     });
     
-    it('should hold progressStatuses in scope', function() {
-      expect(scope.progressStatuses[1]).toBeDefined();
-      expect(scope.progressStatuses[2]).toBeDefined();
+    it('should hold statusReports in scope', function() {
+      expect(scope.statusReports.reported).toBeDefined();
+      expect(scope.statusReports.in_progress).toBeDefined();
       $httpBackend.flush();
     });
     
-    it('should ask for the events list and assign them to scope and stringify the progress', function() {
+    it('should ask for the events list and assign them to scope', function() {
       $httpBackend.flush();
       expect(scope.events[0].description).toBe('descrip 1');
-      expect(scope.events[0].progress).toBe('2');
+      expect(scope.events[0].status_report).toBe('in_progress');
       expect(scope.events[1].description).toBe('descrip 2');
-      expect(scope.events[1].progress).toBe('1');
+      expect(scope.events[1].status_report).toBe('reported');
     });
 
     it('should assign the subcategories to the scope with their respective fa icons', function() {

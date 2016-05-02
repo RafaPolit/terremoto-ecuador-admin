@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col-sm-8 col-md-4">
+    <h1>Ingreso al sistema</h1>
+    <form>
+      <div ng-show="failed">
+        <br><span class="label label-danger">Nombre de usuario o contraseña incorrectos</span><br><br>
+      </div>
+      <div class="form-group">
+        <label for="user">Nombre de usuario</label>
+        <input type="text" class="form-control" id="user" ng-model="loginData.user" placeholder="Nombre de usuario">
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" class="form-control" id="password" ng-model="loginData.password" placeholder="Password">
+      </div>
+      <button type="submit" ng-click="tryLogin()" class="btn btn-primary">Ingresar</button>
+    </form>
+    <br>
+  </div>
+</div>

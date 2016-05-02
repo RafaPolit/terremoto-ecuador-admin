@@ -9,24 +9,31 @@ var Crimes = require(__dirname + '/../models/crimes.js');
 
 // Utils
 var _ = require('underscore');
+var authUtils = require(__dirname + '/../auth/authUtils.js');
 
 // Setup the Route
-router.put('/', function (req, res) {
-  Crimes.update(_(req.body).omit('id'), { where: { id: req.body.id } })
+router.put('/', authUtils.authenticate, function (req, res) {
+  authUtils.checkToken(req, res)
   .then(function() {
-    return Crimes.findById(req.body.id);
-  })
-  .then(function(updated_data) {
-    res.json({ 'event': updated_data.get({ plain: true }) });
+    Crimes.update(_(req.body).omit('id'), { where: { id: req.body.id } })
+    .then(function() {
+      return Crimes.findById(req.body.id);
+    })
+    .then(function(updated_data) {
+      res.json({ 'event': updated_data.get({ plain: true }) });
+    });
   });
 });
 
-router.delete('/', function (req, res) {
-  Crimes.destroy({ where: { id: Number(req.query.id) } })
-  .then(function(destroyed_rows) {
-    if(destroyed_rows) {
-      res.json({ 'eventDeleted': Number(req.query.id) });
-    }
+router.delete('/', authUtils.authenticate, function (req, res) {
+  authUtils.checkToken(req, res)
+  .then(function() {
+    Crimes.destroy({ where: { id: Number(req.query.id) } })
+    .then(function(destroyed_rows) {
+      if(destroyed_rows) {
+        res.json({ 'eventDeleted': Number(req.query.id) });
+      }
+    });
   });
 });
 

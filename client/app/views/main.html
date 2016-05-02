@@ -22,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="event in displayedEvents" class="{{progressStatuses[event.progress].class}}">
+        <tr ng-repeat="event in displayedEvents" class="{{statusReports[event.status_report].class}}">
           <td class="text-center">
             <i class="fa fa-{{subcategories[event.subcategory_id - 1].icon}}"
                style="color: {{subcategories[event.subcategory_id - 1].color}}"></i>

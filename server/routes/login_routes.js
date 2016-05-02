@@ -9,28 +9,36 @@ var auth = require(__dirname + '/../config/auth.js');
 var bcrypt = require('bcrypt');
 var jwt         = require('jwt-simple');
 
+// Models
+var Users = require(__dirname + '/../models/users.js');
+
+// Utils
+var _ = require('underscore');
+
 // Setup the Route
 router.post('/', function (req, res) {
-  if(req.body.user === auth.user) {
-    bcrypt.compare(req.body.password, auth.password, function(err, isMatch) {
-      if(err) { return respond_error(res); }
 
-      if(isMatch) {
-        var token = jwt.encode({ user: req.body.user }, auth.secret);
-        res.json({ data: 'JWT ' + token, error: false });
-        return;
-      }
-
-      return respond_error(res);
-    });
-  }
-  
-  return respond_error(res);
+  Users.findOne({ user: req.body.user })
+  .then(function(user) {
+    if(!user) {
+      respond_error(res);
+    } else {
+      user = user.get({ plain: true });
+      bcrypt.compare(req.body.password, user.password, function(err, isMatch) {
+        if(isMatch && !err) {
+          var token = jwt.encode(_(user).omit('password'), auth.secret);
+          res.json({ success: true, token: 'JWT ' + token, error: false });
+        } else {
+          respond_error(res);
+        }
+      });
+    }
+  });
 });
 
 // response
 function respond_error(res) {
-  return res.json({ success: false, error: 'wrong_user_or_password'});
+  res.json({ success: false, error: 'wrong_user_or_password'});
 }
 
 // Expose the module

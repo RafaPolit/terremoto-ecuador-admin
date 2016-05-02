@@ -41,6 +41,12 @@
           <div class="collapse navbar-collapse" id="js-navbar-collapse">
             <ul class="nav navbar-nav">
               <li ng-class="{ active: locationPath === '/' }"><a href="#/">Feed</a></li>
+              <li ng-if="!isAuthenticated()" ng-class="{ active: locationPath === '/login' }">
+                <a href="#/login">Login</a>
+              </li>
+              <li ng-if="isAuthenticated()" ng-class="{ active: locationPath === '/login' }">
+                <a href="#/login" ng-click="logout();">Logout</a>
+              </li>
               <li ng-class="{ active: locationPath === '/about' }">
                 <a ng-href="#/about"><i class="fa fa-question-circle"></i></a>
               </li>
@@ -93,8 +99,12 @@
     <script src="scripts/libraries/bootbox.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/modules/underscore.js"></script>
+    <script src="scripts/constants/constants.js"></script>
+    <script src="scripts/services/authService.js"></script>
+    <script src="scripts/services/rootScopeVariables.js"></script>
     <script src="scripts/controllers/about.js"></script>
     <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/login.js"></script>
     <script src="scripts/directives/click_confirm.js"></script>
     <script src="scripts/directives/page_select.js"></script>
     <!-- endbuild -->
