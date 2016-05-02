@@ -7,7 +7,7 @@
           <th class="col-sm-5 hidden-xs">Descripción</th>
           <th class="col-xs-3">Ubicación</th>
           <th class="text-center">Mapa</th>
-          <th class="col-xs-2 sortable text-center" st-sort="created_at" st-sort-default="reverse">Fecha</th>
+          <th class="col-xs-2 sortable text-center" st-sort="report_dt" st-sort-default="reverse">Fecha</th>
           <th class="text-center col-xs-1">Acciones</th>
         </tr>
         <tr>
@@ -34,7 +34,7 @@
               <i class="fa fa-map-marker"></i>
             </a>
           </td>
-          <td class="no-wrap">{{event.created_at}}</td>
+          <td class="no-wrap text-center">{{formatDate(event.report_dt)}}</td>
           <td  class="text-center action-buttons no-wrap">
             <!-- <a href="" class="blue"><i class="fa fa-search-plus"></i></a> -->
             <a href=""

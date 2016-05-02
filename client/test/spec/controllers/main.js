@@ -1,3 +1,4 @@
+/* global moment */
 'use strict';
 
 describe('Controller: MainCtrl', function () {
@@ -160,6 +161,15 @@ describe('Controller: MainCtrl', function () {
         expect(scope.events.length).toBe(1);
         expect(scope.events[0].description).toBe('descrip 2');
       });
+    });
+  });
+
+  describe('formatDate', function() {
+    it('should return a moment-formated date', function() {
+      moment.updateLocale('es');
+      expect(scope.formatDate('2015-04-27T16:54:59.000Z')).toBe('04/27/2015');
+      expect(scope.formatDate('2015-04-27T16:54:59.000Z', true)).toContain('April 27 2015');
+      $httpBackend.flush();
     });
   });
 });

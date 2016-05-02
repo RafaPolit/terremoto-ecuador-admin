@@ -141,10 +141,29 @@
                      ng-model="event.editing.report_dt"
                      placeholder="Fecha de Reporte"
                      ng-disabled="!event.allowContentEditing">
+              <span class="grey">&nbsp;({{formatDate(event.editing.report_dt, true)}})</span>
             </div>
           </div>
 
         </form>
+
+        <hr>
+
+        <h4>Comentarios <span class="grey">({{event.comments.length}})</span></h4>
+
+        <div class="text-center" ng-if="event.loading"><i class="fa fa-spinner fa-pulse"></i></div>
+
+        <div ng-if"!event.loading">
+          <div ng-if="!event.comments.length" class="grey">No hay comentarios en este evento</div>
+
+          <div ng-if="event.comments.length" class="well well-sm" ng-repeat="comment in event.comments">
+            <span ng-show="comment.fullname"><b>{{comment.fullname}}</b></span>
+            <span ng-show="!comment.fullname" class="grey">Sin Nombre</span>
+            - {{comment.phone || '' }}
+            <span class="grey">({{formatDate(comment.created_at, true)}})</span><br>
+            {{comment.body}}
+          </div>
+        </div>
 
       </div>
       <div class="modal-footer">
