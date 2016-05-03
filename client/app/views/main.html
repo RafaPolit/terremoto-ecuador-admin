@@ -3,6 +3,18 @@
     <table st-table="displayedEvents" st-safe-src="events" class="table table-striped table-hover">
       <thead>
         <tr>
+          <th colspan="3" class="hidden-xs">&nbsp;</th>
+          <th colspan="2" class="visible-xs">&nbsp;</th>
+          <th class="vertical-align-middle text-center">Status</th>
+          <th colspan="2">
+            <select st-search="status_report" class="form-control">
+              <option value="">Todos</option>
+              <option ng-repeat="(status, row) in statusReports"
+                      value="{{status}}">{{row.status}}</option>
+            </select>
+          </th>
+        </tr>
+        <tr>
           <th class="col-xs-1 text-center sortable" st-sort="subcategory_id"><i class="fa fa-list"></i></th>
           <th class="col-sm-5 hidden-xs">Descripción</th>
           <th class="col-xs-3">Ubicación</th>
@@ -18,7 +30,12 @@
                       value="{{row.id}}">{{row.name}}</option>
             </select>
           </th>
-          <th colspan="6"><input st-search="" class="form-control" placeholder="búsqueda global ..." type="text"/></th>
+          <th colspan="5" class="hidden-xs">
+            <input st-search="" class="form-control" placeholder="búsqueda global ..." type="text"/>
+          </th>
+          <th colspan="4" class="visible-xs">
+            <input st-search="" class="form-control" placeholder="búsqueda global ..." type="text"/>
+          </th>
         </tr>
       </thead>
       <tbody>
