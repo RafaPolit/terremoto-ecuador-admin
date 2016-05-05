@@ -17,8 +17,7 @@ var _ = require('underscore');
 
 // Setup the Route
 router.post('/', function (req, res) {
-
-  Users.findOne({ user: req.body.user })
+  Users.findOne({ where: { user: req.body.user } })
   .then(function(user) {
     if(!user) {
       respond_error(res);

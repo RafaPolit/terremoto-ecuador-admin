@@ -16,6 +16,4 @@ var Users = db.define('adminUsers', {
   updatedAt: 'updated_at'
 });
 
-Users.sync();
-
 module.exports = Users;
