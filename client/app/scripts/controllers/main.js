@@ -14,19 +14,21 @@ angular.module('clientApp')
 
   rootScopeVariables();
 
-  var iconKeys = {
-    food: 'coffee',
-    water: 'tint',
-    clothing: 'female',
-    drugs: 'medkit',
-    rescue: 'ambulance',
-    transport: 'bus',
-    hostel: 'bed'
+  var subcategoryKeys = {
+    food: { icon: 'coffee', es: 'Comida' },
+    water: { icon: 'tint', es: 'Agua' },
+    clothing: { icon: 'female', es: 'Vestimenta' },
+    drugs: { icon: 'medkit', es: 'Medicinas' },
+    rescue: { icon: 'ambulance', es: 'Rescate' },
+    transport: { icon: 'bus', es: 'Transporte' },
+    hostel: { icon: 'bed', es: 'Albergue' },
+    gathering: { icon: 'group', es: 'Acopio' }
   };
 
   function assignFaIcons(subcategories) {
     _(subcategories).each(function(subcategory) {
-      subcategory.icon = iconKeys[subcategory.name];
+      subcategory.icon = subcategoryKeys[subcategory.name].icon;
+      subcategory.es = subcategoryKeys[subcategory.name].es;
     });
   }
 

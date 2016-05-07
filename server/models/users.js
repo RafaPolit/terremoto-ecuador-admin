@@ -3,7 +3,7 @@
 var Sequelize = require('sequelize');
 var db = require(__dirname + '/../config/database.js');
 
-var Users = db.define('adminUsers', {
+var Users = db.define('adminusers', {
   id: { type: Sequelize.INTEGER, primaryKey: true, notNull: true, auto_increment: true }, //int(11) NOT NULL AUTO_INCREMENT,
   user: { type: Sequelize.STRING, notNull: true }, //varchar(255) NOT NULL
   password: { type: Sequelize.STRING, notNull: true }, //varchar(255) NOT NULL

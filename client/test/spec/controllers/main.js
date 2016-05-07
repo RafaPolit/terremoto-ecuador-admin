@@ -77,16 +77,24 @@ describe('Controller: MainCtrl', function () {
     it('should assign the subcategories to the scope with their respective fa icons', function() {
       $httpBackend.flush();
       expect(scope.subcategories[0].name).toBe('food');
+      expect(scope.subcategories[0].es).toBe('Comida');
       expect(scope.subcategories[0].icon).toBe('coffee');
       expect(scope.subcategories[1].name).toBe('water');
+      expect(scope.subcategories[1].es).toBe('Agua');
       expect(scope.subcategories[1].icon).toBe('tint');
     });
   });
 
   describe('editEventModal', function() {
+
+    beforeEach(function() {
+    });
+
     it('should assign the event to the original and a copy to the editing (to prevent double binding)', function() {
       $httpBackend.flush();
+      $httpBackend.expect('GET', '/comments').respond({ comments: [] });
       scope.editEventModal(events[1]);
+      $httpBackend.flush();
       expect(scope.event.original).toBe(events[1]);
       expect(scope.event.editing).not.toBe(events[1]);
       expect(scope.event.editing).toEqual(events[1]);
@@ -94,8 +102,10 @@ describe('Controller: MainCtrl', function () {
 
     it('should set event.allowContentEditing to false', function() {
       $httpBackend.flush();
+      $httpBackend.expect('GET', '/comments').respond({ comments: [] });
       scope.event.allowContentEditing = true;
       scope.editEventModal(events[1]);
+      $httpBackend.flush();
 
       expect(scope.event.allowContentEditing).toBe(false);
     });

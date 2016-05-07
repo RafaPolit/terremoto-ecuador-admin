@@ -3,8 +3,8 @@
     <table st-table="displayedEvents" st-safe-src="events" class="table table-striped table-hover">
       <thead>
         <tr>
-          <th colspan="3" class="hidden-xs">&nbsp;</th>
-          <th colspan="2" class="visible-xs">&nbsp;</th>
+          <th colspan="4" class="hidden-xs">&nbsp;</th>
+          <th colspan="3" class="visible-xs">&nbsp;</th>
           <th class="vertical-align-middle text-center">Status</th>
           <th colspan="2">
             <select st-search="status_report" class="form-control">
@@ -16,8 +16,9 @@
         </tr>
         <tr>
           <th class="col-xs-1 text-center sortable" st-sort="subcategory_id"><i class="fa fa-list"></i></th>
+          <th class="col-xs-1 sortable" st-sort="id">ID</th>
           <th class="col-sm-5 hidden-xs">Descripción</th>
-          <th class="col-xs-3">Ubicación</th>
+          <th class="col-xs-2">Ubicación</th>
           <th class="text-center">Mapa</th>
           <th class="col-xs-2 sortable text-center" st-sort="report_dt" st-sort-default="reverse">Fecha</th>
           <th class="text-center col-xs-1">Acciones</th>
@@ -25,15 +26,15 @@
         <tr>
           <th>
             <select st-search="subcategory_id" class="form-control">
-              <option value="">Todas</option>
+              <option value="">Todas las categorías&nbsp;</option>
               <option ng-repeat="row in subcategories"
-                      value="{{row.id}}">{{row.name}}</option>
+                      value="{{row.id}}">{{row.es}}&nbsp;</option>
             </select>
           </th>
-          <th colspan="5" class="hidden-xs">
+          <th colspan="6" class="hidden-xs">
             <input st-search="" class="form-control" placeholder="búsqueda global ..." type="text"/>
           </th>
-          <th colspan="4" class="visible-xs">
+          <th colspan="5" class="visible-xs">
             <input st-search="" class="form-control" placeholder="búsqueda global ..." type="text"/>
           </th>
         </tr>
@@ -44,6 +45,7 @@
             <i class="fa fa-{{subcategories[event.subcategory_id - 1].icon}}"
                style="color: {{subcategories[event.subcategory_id - 1].color}}"></i>
           </td>
+          <td>{{event.id}}</td>
           <td class="hidden-xs">{{event.description}}</td>
           <td>{{event.address}}</td>
           <td class="text-center">
@@ -53,7 +55,6 @@
           </td>
           <td class="no-wrap text-center">{{formatDate(event.report_dt)}}</td>
           <td  class="text-center action-buttons no-wrap">
-            <!-- <a href="" class="blue"><i class="fa fa-search-plus"></i></a> -->
             <a href=""
                data-toggle="modal"
                data-target="#event_edit_modal"
@@ -65,7 +66,8 @@
                              <br><b>{{event.description}}</b><br>
                              <br>Esta opción es <span class='red'><b>irreversible</b></span>,
                              aún no hemos implementado el soft-delete. Asegúrate de borrar solo eventos
-                             que no sean relevantes."
+                             que no sean relevantes.<br><br>
+                             Borrar un evento borrará también todos los comentarios relacionados a ese evento."
                class="red"><i class="fa fa-trash"></i></a>
           </td>
         </tr>
@@ -73,7 +75,7 @@
 
       <tfoot>
         <tr>
-          <td colspan="6" class="text-center">
+          <td colspan="7" class="text-center">
             <div st-items-by-page="10" st-pagination="" st-template="views/custom_pagination.html"></div>
           </td>
         </tr>

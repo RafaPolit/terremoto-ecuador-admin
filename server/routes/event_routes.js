@@ -6,8 +6,10 @@ var router = express.Router();
 
 // Models
 var Crimes = require(__dirname + '/../models/crimes.js');
+var Comments = require(__dirname + '/../models/comments.js');
 
 // Utils
+var Q = require('q');
 var _ = require('underscore');
 var authUtils = require(__dirname + '/../auth/authUtils.js');
 
@@ -28,12 +30,16 @@ router.put('/', authUtils.authenticate, function (req, res) {
 router.delete('/', authUtils.authenticate, function (req, res) {
   authUtils.checkToken(req, res)
   .then(function() {
-    Crimes.destroy({ where: { id: Number(req.query.id) } })
-    .then(function(destroyed_rows) {
-      if(destroyed_rows) {
-        res.json({ 'eventDeleted': Number(req.query.id) });
+    Q.all([
+      Crimes.destroy({ where: { id: Number(req.query.id) } }),
+      Comments.destroy({ where: { crime_id: Number(req.query.id) } })
+    ])
+    .spread(function(destroyed_event, destroyed_comments) {
+      if(destroyed_event) {
+        res.json({ 'eventDeleted': Number(req.query.id), 'commentsDeleted': destroyed_comments });
       }
-    });
+    })
+    .catch(function(error) { console.log(error); });
   });
 });
 
